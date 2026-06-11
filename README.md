@@ -2,6 +2,62 @@
 
 A premium luxury watch e-commerce website built with **React** and **Vite**, featuring a dark, elegant UI design with smooth animations, a custom cursor experience, and a fully responsive layout.
 
+---
+
+# 📸 Website Screenshots
+
+## 🏠 Hero & Navbar Section
+![Hero & Navbar](./src/components/images/hero%20&%20navbar%20section.png)
+
+## 📂 Collection Section
+![Collection](./src/components/images/collection.png)
+
+## ⌚ Collection Showcase
+![Collection 2](./src/components/images/collection2.png)
+
+## 🔥 Featured Watch
+![Featured Watch](./src/components/images/featured.png)
+
+## 🎁 Special Offer
+![Special Offer](./src/components/images/specialoffer.png)
+
+## 💸 Discount Section
+![Discount](./src/components/images/discount.png)
+
+## 🤖 AI Compare Tool
+![AI Compare Tool](./src/components/images/aicompare.png)
+
+## ⚖️ Smart Comparison Tool
+![Smart Comparison Tool](./src/components/images/smartcomparisontool.png)
+
+## ⌚ Compare Two Watches
+![Compare Two Watches](./src/components/images/comparetwowatch.png)
+
+## 🎨 Custom Royal Watch
+![Custom Royal Watch](./src/components/images/customroyalwatch.png)
+
+## ✨ Customer Response Animation
+![Customer Response](./src/components/images/Customers%20Respon(Change%20animation).png)
+
+## 📖 About Section - Image 1
+![About 1](./src/components/images/about1.png)
+
+## 📖 About Section - Image 2
+![About 2](./src/components/images/about2.png)
+
+## 📖 About Section - Image 4
+![About 4](./src/components/images/about4.png)
+
+## 🌍 Explore Categories
+![Explore Categories](./src/components/images/explore%20categori.png)
+
+## 📞 Contact Page
+![Contact](./src/components/images/contact.png)
+
+## 🦶 Footer Section
+![Footer](./src/components/images/Footer.png)
+
+
 
 ## 🎥 Website Demo
 
