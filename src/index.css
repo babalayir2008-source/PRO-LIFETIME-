@@ -1,0 +1,122 @@
+ .page {
+  animation: fadeSlide 0.4s ease;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* SEARCH BOX (UPGRADED PREMIUM ANIMATION) */
+.searchBox{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(17,17,17,0.9);
+  border:1px solid rgba(192,192,192,0.25);
+  border-radius:30px;
+  padding:7px 14px;
+  transition:0.4s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+/* glowing animated border effect */
+.searchBox::before{
+  content:"";
+  position:absolute;
+  top:-2px;
+  left:-2px;
+  right:-2px;
+  bottom:-2px;
+  background:linear-gradient(120deg,transparent,silver,transparent);
+  opacity:0;
+  transition:0.5s;
+}
+
+.searchBox:hover::before{
+  opacity:0.2;
+  animation:shine 1.5s infinite linear;
+}
+
+/* hover lift */
+.searchBox:hover{
+  transform:translateY(-2px) scale(1.03);
+  border-color:silver;
+  box-shadow:0 0 18px rgba(192,192,192,0.25);
+}
+
+/* search icon animation */
+.searchBox span{
+  display:inline-block;
+  font-size:16px;
+  color:silver;
+  animation:floatIcon 2s infinite ease-in-out;
+  transition:0.3s;
+}
+
+/* input field */
+.searchBox input{
+  background:transparent;
+  border:none;
+  outline:none;
+  color:white;
+  padding:6px 8px;
+  width:170px;
+  transition:0.4s ease;
+}
+
+/* expand input on focus */
+.searchBox:focus-within input{
+  width:220px;
+}
+
+/* placeholder style */
+.searchBox input::placeholder{
+  color:#777;
+  transition:0.3s;
+}
+
+.searchBox:focus-within input::placeholder{
+  color:#aaa;
+}
+
+/* animations */
+@keyframes floatIcon{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-3px); }
+}
+
+@keyframes shine{
+  0%{ transform:translateX(-100%); }
+  100%{ transform:translateX(100%); }
+}
+.hero{
+  height:60vh;
+  background-size:cover;
+  background-position:center;
+  animation:slideShow 20s infinite;
+}
+
+@keyframes slideShow{
+  0%{background-image:url('image1.jpg')}
+  25%{background-image:url('image2.jpg')}
+  50%{background-image:url('image3.jpg')}
+  75%{background-image:url('image4.jpg')}
+  100%{background-image:url('image1.jpg')}
+}
+.cursor{
+  width:20px;
+  height:20px;
+  border:2px solid silver;
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  transition:transform .1s;
+  box-shadow:0 0 15px silver;
+}
