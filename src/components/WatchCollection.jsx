@@ -1,38 +1,39 @@
-function CollectionWatch() {
-  const watches = [
-    {
-      name: "Royal Silver",
-      price: "₹29,999",
-      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30"
-    },
-    {
-      name: "Chrono Elite",
-      price: "₹24,999",
-      image: "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56"
-    },
-    {
-      name: "Titanium Black",
-      price: "₹34,999",
-      image: "https://images.unsplash.com/photo-1547996160-81dfa63595aa"
-    },
-    {
-      name: "Ocean Master",
-      price: "₹22,999",
-      image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3"
-    },
-    {
-      name: "Silver Crown",
-      price: "₹27,999",
-      image: "https://images.unsplash.com/photo-1612817159949-195b6eb9e31a"
-    }
-  ];
+import { useState, useEffect } from "react";
+import { supabase } from "../supabase";
 
-  const rows = [
+function CollectionWatch() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (!error && data) {
+        setProducts(data);
+      }
+      setLoading(false);
+    }
+    fetchProducts();
+  }, []);
+
+  // Group products into rows of 5 for the horizontal scroll UI
+  // If fewer than 5 products, show them all in one row
+  const chunkSize = 5;
+  const rows = [];
+  for (let i = 0; i < products.length; i += chunkSize) {
+    rows.push(products.slice(i, i + chunkSize));
+  }
+
+  const rowLabels = [
+    "New Arrivals",
     "Luxury Collection",
     "Best Sellers",
     "Premium Edition",
     "Sports Series",
-    "New Arrivals"
   ];
 
   return (
@@ -122,6 +123,17 @@ function CollectionWatch() {
           transform:scale(1.1);
         }
 
+        .imgPlaceholder {
+          width:100%;
+          height:260px;
+          background:#1a1a1a;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:50px;
+          color:#333;
+        }
+
         .content{
           padding:20px;
         }
@@ -192,55 +204,107 @@ function CollectionWatch() {
           border-radius:20px;
           font-weight:600;
         }
+
+        /* skeleton */
+        .skelCard {
+          min-width:300px;
+          border-radius:25px;
+          overflow:hidden;
+          border:1px solid rgba(255,255,255,.06);
+        }
+        .skelImg {
+          height:260px;
+          background:linear-gradient(90deg,#1a1a1a 25%,#222 50%,#1a1a1a 75%);
+          background-size:200% 100%;
+          animation:shimmer 1.4s infinite;
+        }
+        .skelBody { padding:20px; }
+        .skelLine {
+          height:14px;
+          border-radius:6px;
+          margin-bottom:12px;
+          background:linear-gradient(90deg,#1a1a1a 25%,#222 50%,#1a1a1a 75%);
+          background-size:200% 100%;
+          animation:shimmer 1.4s infinite;
+        }
+        @keyframes shimmer {
+          0%   { background-position:200% 0; }
+          100% { background-position:-200% 0; }
+        }
+
+        .emptyState {
+          text-align:center;
+          padding:80px 20px;
+          color:#444;
+        }
+        .emptyState p { font-size:16px; margin-top:12px; }
       `}</style>
 
       <div className="container">
-        <h1 className="mainTitle">
-            Pro-LifeTime⌚
-        </h1>
+        <h1 className="mainTitle">Pro-LifeTime⌚</h1>
 
-        {rows.map((row) => (
-          <div className="row" key={row}>
-            <h2 className="rowTitle">{row}</h2>
-
+        {loading ? (
+          <div className="row">
+            <h2 className="rowTitle">Loading…</h2>
             <div className="scrollContainer">
-              {watches.map((watch,index) => (
-                <div className="card" key={index}>
-                  <div className="badge">Premium</div>
-
-                  <img
-                    src={watch.image}
-                    alt={watch.name}
-                  />
-
-                  <div className="content">
-                    <h3 className="watchName">
-                      {watch.name}
-                    </h3>
-
-                    <div className="price">
-                      {watch.price}
-                    </div>
-
-                    <div className="rating">
-                      ⭐⭐⭐⭐⭐
-                    </div>
-
-                    <div className="buttons">
-                      <button className="buyBtn">
-                        🛒 Buy Now
-                      </button>
-
-                      <button className="detailBtn">
-                        👁 View Details
-                      </button>
-                    </div>
+              {[1,2,3,4].map((n) => (
+                <div className="skelCard" key={n}>
+                  <div className="skelImg" />
+                  <div className="skelBody">
+                    <div className="skelLine" style={{width:"70%"}} />
+                    <div className="skelLine" style={{width:"40%"}} />
+                    <div className="skelLine" style={{width:"55%"}} />
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        ))}
+        ) : products.length === 0 ? (
+          <div className="emptyState">
+            <div style={{fontSize:"52px"}}>⌚</div>
+            <p>No products yet. Head to <strong style={{color:"silver"}}>Add Your Product</strong> to get started.</p>
+          </div>
+        ) : (
+          rows.map((rowProducts, rowIndex) => (
+            <div className="row" key={rowIndex}>
+              <h2 className="rowTitle">
+                {rowLabels[rowIndex] || `Collection ${rowIndex + 1}`}
+              </h2>
+
+              <div className="scrollContainer">
+                {rowProducts.map((watch) => (
+                  <div className="card" key={watch.id}>
+                    <div className="badge">{watch.badge || "Premium"}</div>
+
+                    {watch.image_url ? (
+                      <img
+                        src={watch.image_url}
+                        alt={watch.name}
+                        onError={(e) => { e.target.style.display = "none"; }}
+                      />
+                    ) : (
+                      <div className="imgPlaceholder">⌚</div>
+                    )}
+
+                    <div className="content">
+                      <h3 className="watchName">{watch.name}</h3>
+                      <div className="price">
+                        ₹{Number(watch.price).toLocaleString("en-IN")}
+                      </div>
+                      <div className="rating">
+                        {"⭐".repeat(Math.round(watch.rating || 5))}
+                      </div>
+                      <div className="buttons">
+                        <button className="buyBtn">🛒 Buy Now</button>
+                        <button className="detailBtn">👁 View Details</button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </>
   );

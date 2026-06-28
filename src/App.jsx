@@ -4,6 +4,7 @@ import { Contactus } from "./Pages/Contactus"
 import { Collection }  from "./Pages/Collection"
 import { Navbar } from "./components/Navbar"
 import { CustomWatch } from "./Pages/CustomWatch"
+import { AddYourProduct } from "./Pages/AddYourProduct";
 import {Routes,Route } from "react-router-dom"
 function App() {
  
@@ -19,6 +20,7 @@ function App() {
           <Route path="/contact" element={<Contactus/>}/>
           <Route path="/collection" element={<Collection/>}/>
           <Route path="/custom" element={<CustomWatch/>}/>
+          <Route path="/add-product" element={<AddYourProduct />} />
          
       </Routes>
       
